@@ -1,0 +1,114 @@
+using System;
+
+using System.Linq;
+
+
+
+
+public class User
+
+{
+
+    private string _name;
+
+    private string _mobileNumber;
+
+
+
+    public string Name
+
+    {
+
+        get => _name;
+
+        set => _name = SanitizeName(value);
+
+    }
+
+
+
+    public string MobileNumber
+
+    {
+
+        get => _mobileNumber;
+
+        set => _mobileNumber = SanitizeMobileNumber(value);
+
+    }
+
+
+
+    public User(string name, string mobileNumber)
+
+    {
+
+        Name = name;
+
+        MobileNumber = mobileNumber;
+
+    }
+
+
+
+    private string SanitizeName(string name)
+
+    {
+
+        if (string.IsNullOrEmpty(name))
+
+        {
+
+            return "Anonymous";
+
+        }
+
+        // Return only the first letter of each part, mask the rest
+
+        string[] parts = name.Split(' ');
+
+        return string.Join(" ", parts.Select(part => part[0] + new string('*', part.Length - 1)));
+
+    }
+
+
+
+    private string SanitizeMobileNumber(string mobileNumber)
+
+    {
+
+        if (string.IsNullOrEmpty(mobileNumber) || mobileNumber.Length <= 4)
+
+        {
+
+            return mobileNumber;
+
+        }
+
+        // Mask all but the last 4 digits
+
+        return new string('*', mobileNumber.Length - 4) + mobileNumber.Substring(mobileNumber.Length - 4);
+
+    }
+
+
+
+    public override string ToString()
+
+    {
+
+        return $"Name: {Name}, Mobile Number: {MobileNumber}";
+
+    }
+
+}
+
+
+
+User user = new User(Name, MobileNumber);
+
+
+
+
+
+SanitizedInfo = user.ToString();
